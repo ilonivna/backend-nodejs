@@ -1,0 +1,30 @@
+{
+  "name": "backend-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src/**/*.js",
+    "start": "node ./src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilonivna/backend-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ilonivna/backend-nodejs/issues"
+  },
+  "homepage": "https://github.com/ilonivna/backend-nodejs#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "eslint": "^9.23.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9"
+  }
+}
