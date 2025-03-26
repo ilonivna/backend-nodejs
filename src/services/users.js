@@ -1,7 +1,7 @@
 import { UsersCollection } from "../db/models/users.js";
 
-export const getUsersById = async (userId) => {
-const user = await UsersCollection.findById(userId);
+export const getUsersById = async (id) => {
+const user = await UsersCollection.findOne({ id: Number(id) });
 return user;
 };
 
