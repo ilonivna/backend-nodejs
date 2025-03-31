@@ -1,12 +1,23 @@
-import { UsersCollection } from "../db/models/users.js";
+import { UsersCollection } from '../db/models/users.js';
 
 export const getUsersById = async (id) => {
-const user = await UsersCollection.findOne({ id: Number(id) });
-return user;
+  const user = await UsersCollection.findOne({ id: Number(id) });
+  return user;
 };
 
 export const getAllUsers = async () => {
-const users = await UsersCollection.find();
-return users;
+  const users = await UsersCollection.find();
+  return users;
 };
 
+export const createUser = async (payload) => {
+  const user = UsersCollection.create(payload);
+  return user;
+};
+
+export const deleteUser = async (id) => {
+    const user = UsersCollection.findOneAndDelete({
+        id: Number(id),
+    });
+    return user;
+};

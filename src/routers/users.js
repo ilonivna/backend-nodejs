@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsersController, getUserByIdController } from "../controllers/users.js";
+import { createUserController, deleteUserController, getAllUsersController, getUserByIdController } from "../controllers/users.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 
 const router = Router();
@@ -11,9 +11,11 @@ const router = Router();
     //GET a user by ID
     router.get("/users/:id", ctrlWrapper(getUserByIdController));
 
+    //CREATE a user
+    router.post("/users", ctrlWrapper(createUserController));
 
-
-
+    //DELETE a user
+    router.delete("/users/:id", ctrlWrapper(deleteUserController));
 
 
 export default router;
