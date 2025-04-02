@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserController, deleteUserController, getAllUsersController, getUserByIdController } from "../controllers/users.js";
+import { createUserController, deleteUserController, getAllUsersController, getUserByIdController, putUserController } from "../controllers/users.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 
 const router = Router();
@@ -16,6 +16,10 @@ const router = Router();
 
     //DELETE a user
     router.delete("/users/:id", ctrlWrapper(deleteUserController));
+
+    //PUT a user
+    router.put("/users/:id", ctrlWrapper(putUserController));
+
 
 
 export default router;

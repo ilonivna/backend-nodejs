@@ -1,4 +1,4 @@
-import { createUser, deleteUser, getAllUsers, getUsersById } from "../services/users.js";
+import { createUser, deleteUser, getAllUsers, getUsersById, updateUser } from "../services/users.js";
 import createHttpError from "http-errors";
 
 export const getAllUsersController = async (req, res) => {
@@ -50,4 +50,24 @@ res.status(200).json({
   data: user,
 });
 
+};
+
+export const putUserController = async (req, res, next) => {
+  const {id} = req.params;
+  const user = await updateUser(id, req.body, {
+    upsert: true,
+  });
+
+  if (!user) {
+    next(createHttpError(404, 'User not found'));
+    return;
+  }
+
+  const status = user.isNew ? 201 : 200;
+
+  res.status(status).json({
+    status,
+    message: user.isNew ? "Successfully created a user!" : "Successfully updated a user!",
+    data: user,
+  });
 };

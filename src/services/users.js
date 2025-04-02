@@ -16,8 +16,23 @@ export const createUser = async (payload) => {
 };
 
 export const deleteUser = async (id) => {
-    const user = UsersCollection.findOneAndDelete({
-        id: Number(id),
-    });
-    return user;
+  const user = UsersCollection.findOneAndDelete({
+    id: Number(id),
+  });
+  return user;
+};
+
+export const updateUser = async (id, payload, options = {}) => {
+  const res = await UsersCollection.findOneAndUpdate({ id: Number(id)  }, payload, {
+    new: true,
+    includeResultMetadata: true,
+    ...options,
+  });
+
+  if (!res || !res.value) return null;
+
+  return {
+    user: res.value,
+    isNew: Boolean(res?.lastErrorObject?.upserted),
+  };
 };
