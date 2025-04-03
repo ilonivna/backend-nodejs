@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { createUserController, deleteUserController, getAllUsersController, getUserByIdController, putUserController } from "../controllers/users.js";
+import { createUserController, deleteUserController, getAllUsersController, getUserByIdController, putUserController, patchUserController } from "../controllers/users.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { validateBody } from "../middlewares/validation.js";
+import { createUserSchema, updateUserSchema } from "../validation/users.js";
 
 const router = Router();
 
@@ -12,13 +14,17 @@ const router = Router();
     router.get("/users/:id", ctrlWrapper(getUserByIdController));
 
     //CREATE a user
-    router.post("/users", ctrlWrapper(createUserController));
+    router.post("/users", validateBody(createUserSchema), ctrlWrapper(createUserController));
 
     //DELETE a user
     router.delete("/users/:id", ctrlWrapper(deleteUserController));
 
     //PUT a user
-    router.put("/users/:id", ctrlWrapper(putUserController));
+    router.put("/users/:id", validateBody(updateUserSchema), ctrlWrapper(putUserController));
+
+    //PATCH a user
+    router.patch("/users/:id", validateBody(updateUserSchema), ctrlWrapper(patchUserController));
+
 
 
 
