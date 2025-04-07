@@ -6,9 +6,15 @@ import {
   updateUser,
 } from '../services/users.js';
 import createHttpError from 'http-errors';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getAllUsersController = async (req, res) => {
-  const users = await getAllUsers();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const users = await getAllUsers({
+    page,
+    perPage,
+  });
+  
   res.status(200).json({
     message: 'Successfully fetched all users from DB',
     data: users,

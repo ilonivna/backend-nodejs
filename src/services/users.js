@@ -1,13 +1,23 @@
 import { UsersCollection } from '../db/models/users.js';
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getUsersById = async (id) => {
   const user = await UsersCollection.findOne({ id: Number(id) });
   return user;
 };
 
-export const getAllUsers = async () => {
-  const users = await UsersCollection.find();
-  return users;
+export const getAllUsers = async ({ page, perPage }) => {
+  const limit = perPage;
+  const skip = (page - 1) * perPage;
+
+  const usersQuery = UsersCollection.find();
+  const usersCount = await UsersCollection.find()
+    .merge(usersQuery)
+    .countDocuments();
+  const users = await usersQuery.skip(skip).limit(limit).exec();
+  const paginationData = calculatePaginationData(usersCount, perPage, page);
+
+  return { data: users, ...paginationData };
 };
 
 export const createUser = async (payload) => {
@@ -23,11 +33,15 @@ export const deleteUser = async (id) => {
 };
 
 export const updateUser = async (id, payload, options = {}) => {
-  const res = await UsersCollection.findOneAndUpdate({ id: Number(id)  }, payload, {
-    new: true,
-    includeResultMetadata: true,
-    ...options,
-  });
+  const res = await UsersCollection.findOneAndUpdate(
+    { id: Number(id) },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
 
   if (!res || !res.value) return null;
 
